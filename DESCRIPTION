@@ -16,6 +16,6 @@ Depends:
   ggplot2,
   rmarkdown,
   knitr,
-  backtest
-
-
+  backtest,
+  xtable
+  

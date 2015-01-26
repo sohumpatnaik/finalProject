@@ -1,12 +1,13 @@
 lagged_returns <- function(df){
 
-   # cum_ret is 1 month return
-   # calculate previous 6 and 12 month returns (cumulative compound return by sum, not compounding)
+   # calculate previous and forward 1,3,6,and 9 
+   # month returns (cumulative compound return by sum, not compounding)
    df %>%
      ungroup %>%
      arrange(symbol, v.date) %>%
      group_by(symbol) %>%
-     mutate(lg1 = lag(cum_comp_ret),
+     mutate(lr = tret,
+            lg1 = lag(lr),
             lg2 = lag(lg1),
             lg3 = lag(lg2),
             lg4 = lag(lg3),
@@ -17,13 +18,33 @@ lagged_returns <- function(df){
             lg9 = lag(lg8),
             lg10 = lag(lg9),
             lg11 = lag(lg10),
-            ret.1.0.m = (cum_comp_ret),
-            ret.3.0.m = (cum_comp_ret + lg1 +lg2),
-            ret.6.0.m = (cum_comp_ret + lg1 +lg2 + lg3 + lg4 + lg5),
-            ret.9.0.m = (cum_comp_ret + lg1 +lg2 + lg3 + lg4 + lg5
-                          + lg6 + lg7 + lg8),
-            ret.12.0.m = (cum_comp_ret + lg1 +lg2 + lg3 + lg4 + lg5
-                          + lg6 + lg7 + lg8 + lg9 + lg10 + lg11)) %>%
-     select(-lg1, -lg2, -lg3, -lg4, -lg5, -lg6, -lg7, -lg8, -lg9, -lg10, -lg11)
+            ret.1.0.m = (lr),
+            ret.3.0.m = (lr + lg1 +lg2),
+            ret.6.0.m = (lr + lg1 +lg2 + lg3 + lg4 + lg5),
+            ret.9.0.m = (lr + lg1 +lg2 + lg3 + lg4 + lg5 
+                         + lg6 + lg7 + lg8),
+            ret.12.0.m = (lr + lg1 +lg2 + lg3 + lg4 + lg5 
+                          + lg6 + lg7 + lg8 + lg9 + lg10 + lg11),
+            ld1 = lead(lr),
+            ld2 = lead(ld1),
+            ld3 = lead(ld2),
+            ld4 = lead(ld3),
+            ld5 = lead(ld4),
+            ld6 = lead(ld5),
+            ld7 = lead(ld6),
+            ld8 = lead(ld7),
+            ld9 = lead(ld8),
+            ld10 = lead(ld9),
+            ld11 = lead(ld10),
+            ld12 = lead(ld11),
+            ret.0.1.m = (ld1),
+            ret.0.3.m = (ld1 + ld2 + ld3),
+            ret.0.6.m = (ld1 +ld2 + ld3 + ld4 + ld5 + ld6),
+            ret.0.9.m = (ld1 +ld2 + ld3 + ld4 + ld5
+                         + ld6 + ld7 + ld8 + ld9),
+            ret.0.12.m = (ld1 + ld2 + ld3 + ld4 + ld5 + ld6
+                          + ld7 + ld8 + ld9 + ld10 + ld11 + ld12)) %>%
+     select(-lg1, -lg2, -lg3, -lg4, -lg5, -lg6, -lg7, -lg8, -lg9, -lg10, -lg11) %>%
+     select(-ld1, -ld2, -ld3, -ld4, -ld5, -ld6, -ld7, -ld8, -ld9, -ld10, -ld11, -ld12)
 
 }

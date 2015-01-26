@@ -18,7 +18,7 @@ monthly_return <- function(df){
     group_by(symbol) %>%
     arrange(symbol, v.date)  %>%
     #creates new column that calculates cumulative monthly return
-    mutate(cum_comp_ret = cumprod(1+tret) - 1) %>%
+    mutate(cum_ret = cumsum(tret)) %>%
     #only displays dates in dates dataframe (last date of each month)
     filter(v.date %in% dates$v.date)
 

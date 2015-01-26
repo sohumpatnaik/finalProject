@@ -6,7 +6,7 @@ monthly_momentum <- function(df){
 
   b <- lag(df$price)
 
-  monthly_momentum = a-b
+  monthly_momentum = (a-b)/a
 
   df <- bind_cols(df, as.data.frame(monthly_momentum))
 

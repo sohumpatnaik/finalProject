@@ -21,11 +21,11 @@ library(finalProject)
 @
 
 <<data, echo=FALSE, cache=TRUE>>=
-x <- read.csv("/Users/Sohum/Desktop/projects/finalProject/results.csv")
-# ## Gather the data
-# 
-# x <- gather_all_data(1998:2007)
-# x <- lagged_returns(x)
+# x <- read.csv("/Users/Sohum/Desktop/projects/finalProject/results.csv")
+## Gather the data
+
+x <- gather_all_data(1998:2007)
+x <- lagged_returns(x)
 
 
 # 

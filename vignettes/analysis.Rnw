@@ -9,6 +9,7 @@
   of Jegadeesh}
   \newpage
 \author{Stephanie Li and Sohum Patnaik}
+\date{ January 28, 2015 }
 
 \maketitle
 
@@ -132,17 +133,20 @@ print(jctab2, table.placement="!htp")
 
 
 
-
-
-
-
-
 \newpage
 
 <<echo = FALSE, warning=FALSE, results=tex>>=
 require(xtable)
+y <- y[which(!is.na(y$ret.1.0.m)),]
+y <- y[which(!is.na(y$ret.0.1.m)),]
+y <- y[which(!is.na(y$ret.3.0.m)),]
+y <- y[which(!is.na(y$ret.0.3.m)),]
+y <- y[which(!is.na(y$ret.6.0.m)),]
+y <- y[which(!is.na(y$ret.0.6.m)),]
+y <- y[which(!is.na(y$ret.12.0.m)),]
+y <- y[which(!is.na(y$ret.0.12.m)),]
 btone <- backtest(y, in.var="ret.1.0.m", ret.var="ret.0.1.m", by.period=FALSE, natural=TRUE, date.var="v.date", id.var="symbol", buckets=10)
-btthree <- backtest(y, in.var="ret.3.0.m", ret.var="ret.0.3.m", by.period=FALSE, natural=TRUE, date.var="v.date", id.var="id", buckets=10)
+btthree <- backtest(y, in.var="ret.3.0.m", ret.var="ret.0.3.m", by.period=FALSE, natural=TRUE, date.var="v.date", id.var="symbol", buckets=10)
 btsix <- backtest(y, in.var="ret.6.0.m", ret.var="ret.0.6.m", by.period=FALSE, natural=TRUE, date.var="v.date", id.var="id", buckets=10)
 bttwelve <- backtest(y, in.var="ret.12.0.m", ret.var="ret.0.12.m", by.period=FALSE, natural=TRUE, date.var="v.date", id.var="id", buckets=10)
 a <- summaryStats(btone)
@@ -154,10 +158,25 @@ f1 <- cbind(a,b)
 colnames(f1) <- paste("Mean", c(1,3), "month lagged return")
 xtab1 <- xtable(f1, size = "small", digits = 6, caption="Table III (Jan-Dec)")
 print(xtab1, table.placement="!htp")
-
 @
 
+\begin{figure}[h]
+    \centering
+    \vspace*{.1in}
+<<fig=true, echo=FALSE>>=
+print(plot(btone, type="cumreturn"))
+@
+\caption{Cumulative Return for One Month Returns}
+\label{fig:cumreturn1}
 
+<<fig=true, echo=FALSE>>=
+print(plot(btthree, type="cumreturn"))
+@
+\caption{Cumulative Return for Three Month Returns}
+\label{fig:cumreturn2}
+\end{figure}
+
+\newpage
 <<echo = FALSE, warning=FALSE, results=tex>>=
 c <- summaryStats(btsix)
 c <- t(c[length(c[,1]),])
@@ -173,6 +192,45 @@ print(xtab2, table.placement="!htp")
 # print(p)
 @
 
+\begin{figure}[h]
+    \centering
+    \vspace*{.1in}
+<<fig=true, echo=FALSE>>=
+print(plot(btsix, type="cumreturn"))
+@
+\caption{Cumulative Return for Six Month Returns}
+\label{fig:cumreturn3}
+
+<<fig=true, echo=FALSE>>=
+print(plot(bttwelve, type="cumreturn"))
+@
+\caption{Cumulative Return for Twelve Month Returns}
+\label{fig:cumreturn4}
+\end{figure}
 
 
+\section*{ Extension }
+We will see if the percent change in price of a stock of the past 1, 3, 6, and 12 months is related to the total returns of that stock over the upcoming 1, 3, 6, and 12 months.
+
+<<echo = FALSE, warning=FALSE, results=tex>>=
+require(xtable)
+z <- monthly_momentum(y)
+z <- z[which(!is.na(y$ret.0.1.m)),]
+z <- z[which(!is.na(y$ret.0.3.m)),]
+z <- z[which(!is.na(y$ret.0.6.m)),]
+z <- z[which(!is.na(y$ret.0.12.m)),]
+btonemomentum <- backtest(y, in.var="ret.1.0.m", ret.var="ret.0.1.m", by.period=FALSE, natural=TRUE, date.var="v.date", id.var="symbol", buckets=10)
+a2 <- summaryStats(btonemomentum)
+a2 <- t(a2[length(a[,1]),])
+g1 <- a
+# rownames(g1) <- paste("P", 1:10)
+# colnames(g1) <- paste("Mean", c(1,3), "month lagged return")
+xtab1 <- xtable(g1, size = "small", digits = 6, caption="Table IV (Jan-Dec)")
+print(xtab1, table.placement="!htp")
+@
+
+\section*{ Conclusion }
+This paper shows that returns of stocks can be predicted. The results show a pattern in the cap size of a stock and it's 1 month, 3 month, 6 month, and 12 month lagged return. A similar pattern can also be seen if we isolate January in that test, which is interesting to note due to the January effect. These results were seen by splitting the stocks we gathered from ws.data, sorting the stocks into quintiles based off their cap size, and finding the average 1 month, 3 month, 6 month, and 12 month forward returns of those quintiles. The stocks with a higher cap size clearly performed better in 1, 3, 6, 12 and months than the stocks with lower cap sizes.
+
+Similarly, we have also seen that the total return that a stock has had previously affects the total return that the stock will have in the future. We ran a backtest on the data we gathered from ws.data, which split the stocks into 10 buckets based off their 1 month, 3 month, 6 month, and 12 month previous returns. We then analyzed the total returns of those stocks in the future 1, 3, 6, and 12 months, and found a clear pattern where stocks that had outperformed other stocks in the past continued to outperform those same stocks. With the findings in this paper, we can reject the notion that stocks perform randomly, for we have shown that the performance of a stock can be predicted.
 \end{document}

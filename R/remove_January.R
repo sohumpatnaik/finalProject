@@ -1,4 +1,4 @@
 remove_January <- function(df){
-  #removes all january data and keeps all feb-dec data
+  #removes all January data and keeps all Feb-Dec data
   newdf <- df[which(month(df$v.date)!=1),]
 }

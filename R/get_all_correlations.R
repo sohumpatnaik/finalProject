@@ -1,7 +1,9 @@
 get_all_correlations <- function(x, number, period) {
   
+  # Gets the correlations of all quintiles based off a specified time period
+  
   y <- NULL
-  #alters data frame to include either all 12 months, all januaries, or all feb-dec
+  # alters the data frame to include either all 12 months, all januaries, or all feb-dec values
   if(period == "full"){
     x <- x
   } else if(period == "jan") {
@@ -11,7 +13,7 @@ get_all_correlations <- function(x, number, period) {
     }else{
     stop()
   }
-  #correlations of 1, 3, 6, and 12 month returns
+  # finds the correlations of 1, 3, 6, and 12 month returns
   if(number == 1 | 3 | 6 | 12){
     for(i in 1:5) {
       

@@ -1,12 +1,12 @@
 Package: finalProject
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Evidence of Predictable Behavior of Security Returns
 Version: 0.1
 Date: 2015-01-15
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Author: Sohum Patnaik and Stephanie Li
+Maintainer: <sp12@williams.edu>, <syl2@williams.edu>
+Description: This package will calculate the serial correlation and monthly returns on individual stocks of ws.data
+License:
 LazyData: TRUE
 Depends:
   ws.data,
@@ -17,5 +17,5 @@ Depends:
   rmarkdown,
   knitr,
   backtest,
-  xtable
-  
+  xtable,
+  bibtex

@@ -1,9 +1,11 @@
 gather_data <- function(whichyear) {
-  #gets yearly data for the inputted year
+  # Gets the yearly data for the inputted year
   data(yearly)
   x <- yearly
   x <- filter(yearly, year == whichyear) 
-  #gets all data from all companies in top.1500
+  
+  # filters out the companies that weren't in the top 1500
+  # filters out other companies we manually found to be outliers
   x %>%
     filter(top.1500 == "TRUE") %>%
     
@@ -19,16 +21,16 @@ gather_data <- function(whichyear) {
   data(list = file.name)
   secref_data <- select(secref, -name, -m.sec, -m.ind)
   y <- left_join(eval(parse(text = file.name)), secref_data)
-  y <- select(y, -price.unadj, -volume, -volume.unadj) 
+  y <- select(y, -price.unadj, -volume.unadj) 
   
-  ## join all data
+  ## joins all the data
   x <- left_join(x, y)
   x <- tbl_df(x)
   
-  ##do not need certain variables for our analysis
+  # removes unecessary variables for our analysis
   x <- select(x, -year)
   
-  ## removes all symbols that didn't exist for every year
+  # removes all symbols that didn't exist for every year from 1998 to 2007
   u <- unique(x$symbol)
   rem <- c()
   for (i in 1:length(u)){
